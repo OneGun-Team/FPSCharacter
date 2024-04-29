@@ -10,6 +10,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
@@ -117,6 +118,10 @@ void AFPSPlayerCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	// Bind Run events
+	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &AFPSPlayerCharacter::OnRun);
+	PlayerInputComponent->BindAction("Run", IE_Released, this, &AFPSPlayerCharacter::OnWalk);
+
 	// Bind fire event
 	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFPSPlayerCharacter::OnFire);
 
@@ -124,6 +129,7 @@ void AFPSPlayerCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	EnableTouchscreenMovement(PlayerInputComponent);
 
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AFPSPlayerCharacter::OnResetVR);
+	
 
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AFPSPlayerCharacter::MoveForward);
@@ -136,6 +142,16 @@ void AFPSPlayerCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	PlayerInputComponent->BindAxis("TurnRate", this, &AFPSPlayerCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AFPSPlayerCharacter::LookUpAtRate);
+}
+
+void AFPSPlayerCharacter::OnRun(){
+	GetCharacterMovement()->MaxWalkSpeed *= 2;
+}
+
+void AFPSPlayerCharacter::OnWalk()
+{
+	//UE_LOG(LogTemp, Log, TEXT("isRun is false"));
+	GetCharacterMovement()->MaxWalkSpeed /= 2;
 }
 
 void AFPSPlayerCharacter::OnFire()
@@ -257,7 +273,7 @@ void AFPSPlayerCharacter::EndTouch(const ETouchIndex::Type FingerIndex, const FV
 void AFPSPlayerCharacter::MoveForward(float Value)
 {
 	if (Value != 0.0f)
-	{
+	{	
 		// add movement in that direction
 		AddMovementInput(GetActorForwardVector(), Value);
 	}
