@@ -51,6 +51,9 @@ class AFPSPlayerCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UMotionControllerComponent* L_MotionController;
 
+	/* RunningState*/
+	UPROPERTY(VisibleDefaultsOnly, Category = State)
+	bool isRun;
 
 public:
 	AFPSPlayerCharacter();
@@ -104,6 +107,7 @@ protected:
 	/* 손원일 코드 작성  */
 	void OnRun(); // 달리기
 	void OnWalk(); // 걷기
+	void OnSit();
 
 	/**
 	 * Called via input to turn at a given rate.

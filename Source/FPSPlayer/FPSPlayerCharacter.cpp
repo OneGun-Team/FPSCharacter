@@ -22,7 +22,7 @@ AFPSPlayerCharacter::AFPSPlayerCharacter()
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
-
+	isRun = false;
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
@@ -145,13 +145,13 @@ void AFPSPlayerCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 }
 
 void AFPSPlayerCharacter::OnRun(){
-	GetCharacterMovement()->MaxWalkSpeed *= 2;
+	isRun = true;
 }
 
 void AFPSPlayerCharacter::OnWalk()
 {
 	//UE_LOG(LogTemp, Log, TEXT("isRun is false"));
-	GetCharacterMovement()->MaxWalkSpeed /= 2;
+	isRun = false;
 }
 
 void AFPSPlayerCharacter::OnFire()
@@ -274,6 +274,12 @@ void AFPSPlayerCharacter::MoveForward(float Value)
 {
 	if (Value != 0.0f)
 	{	
+		if (isRun) {
+			GetCharacterMovement()->MaxWalkSpeed *= 2;
+		}
+		else {
+			GetCharacterMovement()->MaxWalkSpeed /= 2;
+		}
 		// add movement in that direction
 		AddMovementInput(GetActorForwardVector(), Value);
 	}
