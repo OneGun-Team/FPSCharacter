@@ -53,7 +53,9 @@ class AFPSPlayerCharacter : public ACharacter
 
 	/* RunningState*/
 	UPROPERTY(VisibleDefaultsOnly, Category = State)
-	bool isRun;
+	bool isRun; 
+	UPROPERTY(VisibleDefaultsOnly, Category = State)
+	bool isSit;
 
 	
 
@@ -116,7 +118,7 @@ protected:
 	/* 손원일 코드 작성  */
 	void OnRun(); // 달리기
 	void OnWalk(); // 걷기
-	void OnSit();
+	void OnSit(); // 앉기
 
 	/**
 	 * Called via input to turn at a given rate.

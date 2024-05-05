@@ -23,6 +23,7 @@ AFPSPlayerCharacter::AFPSPlayerCharacter()
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(55.f, 96.0f);
 	isRun = false;
+	isSit = false;
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
@@ -121,7 +122,7 @@ void AFPSPlayerCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 	// Bind Run events
 	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &AFPSPlayerCharacter::OnRun);
 	PlayerInputComponent->BindAction("Run", IE_Released, this, &AFPSPlayerCharacter::OnWalk);
-
+	PlayerInputComponent->BindAction("Sit", IE_Pressed, this, &AFPSPlayerCharacter::OnSit);
 	// Bind fire event
 	//PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFPSPlayerCharacter::OnFire);
 
@@ -152,6 +153,21 @@ void AFPSPlayerCharacter::OnRun(){
 void AFPSPlayerCharacter::OnWalk(){
 	//UE_LOG(LogTemp, Log, TEXT("isRun is false"));
 	isRun = false;
+}
+
+void AFPSPlayerCharacter::OnSit() {
+	isSit = !isSit;
+
+	if (isSit) {
+		FirstPersonCameraComponent->SetRelativeLocation(FVector(-39.56f, 1.75f, 24.f));
+		walkForwardSpeed = 400.0f;
+		runSpeed = 400.0f;
+	}
+	else {
+		FirstPersonCameraComponent->SetRelativeLocation(FVector(-39.56f, 1.75f, 64.f));
+		walkForwardSpeed = 600.0f;
+		runSpeed = 1200.0f;
+	}
 }
 
 void AFPSPlayerCharacter::OnFire()
