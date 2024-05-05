@@ -55,6 +55,8 @@ class AFPSPlayerCharacter : public ACharacter
 	UPROPERTY(VisibleDefaultsOnly, Category = State)
 	bool isRun;
 
+	
+
 public:
 	AFPSPlayerCharacter();
 
@@ -89,6 +91,13 @@ public:
 	/** Whether to use motion controller location for aiming. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint8 bUsingMotionControllers : 1;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = MovementSpeedValue)
+	float runSpeed = 1200.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = MovementSpeedValue)
+	float walkForwardSpeed = 600.0f;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = MovementSpeedValue)
+	float walkRightSpeed = 400.0f;
 
 protected:
 	

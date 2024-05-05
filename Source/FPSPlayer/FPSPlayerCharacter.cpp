@@ -145,11 +145,11 @@ void AFPSPlayerCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 }
 
 void AFPSPlayerCharacter::OnRun(){
+	//UE_LOG(LogTemp, Log, TEXT("isRun is true"));
 	isRun = true;
 }
 
-void AFPSPlayerCharacter::OnWalk()
-{
+void AFPSPlayerCharacter::OnWalk(){
 	//UE_LOG(LogTemp, Log, TEXT("isRun is false"));
 	isRun = false;
 }
@@ -275,10 +275,10 @@ void AFPSPlayerCharacter::MoveForward(float Value)
 	if (Value != 0.0f)
 	{	
 		if (isRun) {
-			GetCharacterMovement()->MaxWalkSpeed *= 2;
+			GetCharacterMovement()->MaxWalkSpeed = runSpeed;
 		}
 		else {
-			GetCharacterMovement()->MaxWalkSpeed /= 2;
+			GetCharacterMovement()->MaxWalkSpeed = walkForwardSpeed;
 		}
 		// add movement in that direction
 		AddMovementInput(GetActorForwardVector(), Value);
@@ -289,6 +289,7 @@ void AFPSPlayerCharacter::MoveRight(float Value)
 {
 	if (Value != 0.0f)
 	{
+		GetCharacterMovement()->MaxWalkSpeed = walkRightSpeed;
 		// add movement in that direction
 		AddMovementInput(GetActorRightVector(), Value);
 	}
